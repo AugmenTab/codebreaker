@@ -48,17 +48,23 @@ public class Game {
     return guesses.size();
   }
 
-  public Guess guess(String text) {
+  public Guess guess(String text)
+      throws IllegalGuessCharacterException, IllegalGuessLengthException {
     if (text.length() != length) {
-      throw new IllegalArgumentException(
+      throw new IllegalGuessLengthException(
           String.format(ILLEGAL_LENGTH_MESSAGE, length, text.length()));
     }
     if (text.matches(badGuessPattern)) {
-      throw new IllegalArgumentException(String.format(ILLEGAL_CHARACTER_MESSAGE, pool, text));
+      throw new IllegalGuessCharacterException
+          (String.format(ILLEGAL_CHARACTER_MESSAGE, pool, text));
     }
     Guess guess = code.new Guess(text);
     guesses.add(guess);
     return guess;
+  }
+
+  public void restart() {
+    guesses.clear();
   }
 
 }
